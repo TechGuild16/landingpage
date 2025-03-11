@@ -4,9 +4,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import img1 from "../../assets/img1.webp";
-import img2 from "../../assets/img3.webp";
+import img2 from "../../assets/img2.webp";
 import img3 from "../../assets/img3.webp";
-import img4 from "../../assets/img4.webp";
+import img4 from "../../assets/img5.jpg";
 import amenities from "../../assets/amenities.webp";
 
 const Amenities = () => {
@@ -30,10 +30,9 @@ const Amenities = () => {
         overflow: "hidden",
       }}
     >
-      {/* Header Section */}
       <Row className="justify-content-center text-center mb-5">
         <Col lg={8}>
-          <h6 className="text-warning fw-bold" style={{ letterSpacing: "1px" }}>
+          <h6 className=" fw-bold" style={{ letterSpacing: "1px" }}>
             Premium Amenities
           </h6>
           <h2 className="fw-bold display-5 text-dark">
@@ -42,9 +41,7 @@ const Amenities = () => {
         </Col>
       </Row>
 
-      {/* Content Section */}
       <Row className="align-items-center position-relative">
-        {/* Left Side Image */}
         <Col md={6} className="p-4">
           <img
             src={amenities}
@@ -59,7 +56,6 @@ const Amenities = () => {
           />
         </Col>
 
-        {/* Right Side Slider - Overlapping Effect */}
         <Col md={6} className="p-4">
           <div>
             <Slider {...settings}>
@@ -78,7 +74,6 @@ const Amenities = () => {
                       boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.3)",
                     }}
                   />
-                  {/* Overlay Text with Glassmorphism Effect */}
                   <div
                     className="position-absolute p-3 rounded"
                     style={{
@@ -92,7 +87,7 @@ const Amenities = () => {
                       boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
                     }}
                   >
-                    <h3 className="fw-bold text-warning text-center">
+                    <h3 className="fw-bold  text-center">
                       Yoga & Wellness
                     </h3>
                     <p

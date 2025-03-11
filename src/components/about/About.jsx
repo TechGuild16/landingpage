@@ -27,7 +27,6 @@ const About = () => {
             <Image src={aboutimg2} alt="Luxury Pool" fluid className="h-100 w-100  object-fit-cover" />
           </motion.div>
 
-          {/* Main Background Image */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -46,7 +45,7 @@ const About = () => {
             animate={{ y: 0, opacity: 1 }} 
             transition={{ duration: 1, delay: 0.3 }}
           >
-            <h6 className="text-primary fw-bold position-relative d-inline-block fs-5">
+            <h6 className=" fw-bold position-relative d-inline-block fs-5">
               Overview
               <span className="d-block mt-2" 
                 style={{
@@ -72,7 +71,6 @@ const About = () => {
             </p>
           </motion.div>
 
-          {/* Stylish "OVERVIEW" Background Text */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.1 }}

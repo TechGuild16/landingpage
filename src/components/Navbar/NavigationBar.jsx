@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { FaHome, FaRupeeSign, FaProjectDiagram, FaWifi, FaImages, FaMapMarkerAlt, FaFileDownload, FaPhoneAlt } from "react-icons/fa";
 import { BsPlayCircle } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../assets/logo.jpg";
 import dellogo from '../../assets/developer-logo.png'
+
 const NavigationBar = () => {
+  const [navbarBg, setNavbarBg] = useState("transparent");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setNavbarBg("white");
+      } else {
+        setNavbarBg("transparent");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <Navbar expand="lg" className="custom-navbar shadow-sm sticky-top">
+    <Navbar
+      expand="lg"
+      className="custom-navbar shadow-sm sticky-top"
+      style={{
+        backgroundColor: navbarBg,
+        transition: "background-color 0.3s ease-in-out"
+      }}
+    >
       <Container>
-        <Navbar.Brand className="fw-bold borderno border-end border-secondary pe-3">
-          <img src={logo} width={220} alt="Logo" className="hiddeninmobile" />
-          <img src={dellogo} width={140} alt="" className="hiddenindek" />
+        <Navbar.Brand className="fw-bold borderno pe-3">
+          <img src={dellogo} width={140} alt="" />
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbar-content" />
@@ -23,11 +45,10 @@ const NavigationBar = () => {
             <Nav.Link href="#amenities" className="border-end border-secondary"><FaWifi /> Amenities</Nav.Link>
             <Nav.Link href="#gallery" className="border-end border-secondary"><FaImages /> Gallery</Nav.Link>
             <Nav.Link href="#location" className="border-end border-secondary"><FaMapMarkerAlt /> Location</Nav.Link>
-            <Nav.Link href="#virtual-tour" className=""><BsPlayCircle /> Virtual Site Tour</Nav.Link>
+            <Nav.Link href="#virtual-tour"><BsPlayCircle /> Virtual Site Tour</Nav.Link>
           </Nav>
 
           <div className="d-flex align-items-center gap-3">
-
             <Button href="#brochure" className="brochure-btn mx-1">
               <FaFileDownload className="icon-bounce" /> Brochure
             </Button>

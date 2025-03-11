@@ -1,23 +1,60 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaMapMarkerAlt, FaCheckCircle } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import background from "../../assets/background.jpg";
-import { ToastContainer, toast } from "react-toastify";
 import emailjs from "@emailjs/browser";
-import "react-toastify/dist/ReactToastify.css";
+
 const Hero = () => {
     const [phone, setPhone] = useState("");
-    const [formData, setFormData] = useState({ name: "", email: "", message: "",phone : "" });
+    const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+    const [errors, setErrors] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const [animate, setAnimate] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setErrors({ ...errors, [name]: "" }); // Clear error on user input
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = "Name is required.";
+        } else if (!/^[a-zA-Z\s]{3,}$/.test(formData.name.trim())) {
+            newErrors.name = "Name must contain only letters (min 3 characters).";
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = "Email is required.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = "Enter a valid email address.";
+        }
+
+        if (!phone.trim()) {
+            newErrors.phone = "Phone number is required.";
+        } else if (!/^[6-9]\d{9}$/.test(phone)) {
+            newErrors.phone = "Enter a valid 10-digit Indian phone number.";
+        }
+
+        if (!formData.message.trim()) {
+            newErrors.message = "Message is required.";
+        } else if (formData.message.trim().length < 10) {
+            newErrors.message = "Message must be at least 10 characters.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
 
         const templateParams = {
             name: formData.name,
@@ -27,65 +64,53 @@ const Hero = () => {
         };
 
         emailjs
-            .send(
-                "service_gr9oxba",
-                "template_2h8x1qs",
-                templateParams,
-                "TztJaR0LXFRcGec-g"
-            )
-            .then(() => toast.success("🎉 Form submitted successfully!"))
-            .catch(() => toast.error("❌ Failed to submit form. Please try again."));
+            .send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
+            .then(() => {
+                setShowModal(true);
+                setAnimate(true);
+                setTimeout(() => {
+                    setAnimate(false);
+                    setShowModal(false);
+                }, 4000);
+            })
+            .catch(() => alert("❌ Failed to submit form. Please try again."));
     };
+
     return (
         <>
-        <div
-            className="hero-section text-white d-flex align-items-center"
-            style={{
-                background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${background})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                padding: "80px 0",
-                minHeight: "100vh",
-            }}
-        >
-            <Container>
-                <Row className="align-items-center ">
-                    <Col lg={7} className="text-start  text-lg-start">
-                        <h1 className="fw-bold display-5">BIRLA PUNYA PHASE 1</h1>
-                        <p className="mb-3 lead">
-                            <FaMapMarkerAlt className="me-2" /> At Mangalwar Peth, Kasba Peth, Pune
-                        </p>
-                        <h4 className="fw-semibold">2, 3 & 4 BHK APARTMENTS</h4>
-                        <ul className="list-unstyled mybackground mt-4 fs-5">
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Status: New Launch
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Green Spaces: 80%
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Largest Land Parcel of 5.76 Acre in Central Pune
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Tallest Tower of Central Pune
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> 1.5 Acres of Grand Clubhouse
-                            </li>
-                        </ul>
-                        <Button variant="primary" className="mt-3 px-5 py-2 fw-bold shadow">
-                            Know More →
-                        </Button>
-                        <div className="mt-4 p-4 rounded shadow-lg price-card">
-                            <h5 className="fw-bold text-uppercase text-white">Starting Price</h5>
-                            <h3 className="text-warning fw-bold display-5">₹ 1.75 Cr*</h3>
-                        </div>
-                    </Col>
+            {/* Hero Section */}
+            <div
+                className="hero-section text-white d-flex align-items-center"
+                style={{
+                    background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${background})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    padding: "80px 0",
+                    minHeight: "100vh",
+                }}
+            >
+                <Container>
+                    <Row className="align-items-center">
+                        <Col lg={7} className="text-start">
+                            <h1 className="fw-bold display-4 mytext">BIRLA PUNYA PHASE 1</h1>
+                            <p className="mb-3 lead">
+                                <FaMapMarkerAlt className="me-2" /> At Mangalwar Peth, Kasba Peth, Pune
+                            </p>
+                            <h4 className="fw-semibold">2, 3 & 4 BHK APARTMENTS</h4>
 
-                    <Col lg={5} className="mt-5 mt-lg-0">
-                        <div className="p-4 rounded shadow-lg backdrop-blur">
-                            <h4 className="text-center fw-bold mb-3">Book A Site Visit !</h4>
-                            <Form onSubmit={handleSubmit}>
+                            <Button className="mt-3 purple px-5 py-2 fw-bold shadow-lg">Know More →</Button>
+                            <div className="mt-4 p-4 rounded shadow-lg price-card">
+                                <h5 className="fw-bold text-uppercase text-white">Starting Price</h5>
+                                <h3 className="text-warning fw-bold display-5">₹ 1.75 Cr*</h3>
+                            </div>
+                        </Col>
+
+                        {/* Form Section */}
+                        <Col lg={5} className="mt-5 mt-lg-0">
+                            <div className="p-4 rounded shadow-lg backdrop-blur">
+                                <h4 className="text-center fw-bold mb-3">Book A Site Visit!</h4>
+                                <Form onSubmit={handleSubmit}>
+                                    {/* Name Field */}
                                     <Form.Group className="mb-3">
                                         <Form.Control
                                             type="text"
@@ -93,10 +118,13 @@ const Hero = () => {
                                             placeholder="Enter Name"
                                             value={formData.name}
                                             onChange={handleChange}
-                                            className="p-2"
+                                            className="p-3 rounded-3"
+                                            required
                                         />
+                                        {errors.name && <p className="text-danger mt-1">{errors.name}</p>}
                                     </Form.Group>
 
+                                    {/* Email Field */}
                                     <Form.Group className="mb-3">
                                         <Form.Control
                                             type="email"
@@ -104,21 +132,27 @@ const Hero = () => {
                                             placeholder="Enter Email"
                                             value={formData.email}
                                             onChange={handleChange}
-                                            className="p-2"
+                                            className="p-3 rounded-3"
+                                            required
                                         />
+                                        {errors.email && <p className="text-danger mt-1">{errors.email}</p>}
                                     </Form.Group>
 
+                                    {/* Phone Field */}
                                     <Form.Group className="mb-3">
                                         <PhoneInput
                                             country="in"
                                             enableSearch={true}
                                             containerClass="w-100"
-                                            inputClass="form-control w-100"
+                                            inputClass="form-control w-100 p-3 rounded-3"
                                             value={phone}
                                             onChange={setPhone}
+                                            required
                                         />
+                                        {errors.phone && <p className="text-danger mt-1">{errors.phone}</p>}
                                     </Form.Group>
 
+                                    {/* Message Field */}
                                     <Form.Group className="mb-3">
                                         <Form.Control
                                             as="textarea"
@@ -127,49 +161,39 @@ const Hero = () => {
                                             placeholder="Enter Message"
                                             value={formData.message}
                                             onChange={handleChange}
-                                            className="p-2"
+                                            className="p-3 rounded-3"
+                                            required
                                         />
+                                        {errors.message && <p className="text-danger mt-1">{errors.message}</p>}
                                     </Form.Group>
 
-                                    <Button type="submit" variant="primary" className="w-100 fw-bold py-2 shadow">
+                                    <Button type="submit" className="w-100 purple fw-bold py-3 shadow-lg">
                                         Submit Now
                                     </Button>
-
-                                    <Form.Check
-                                        type="checkbox"
-                                        className="mt-3 small text-white d-flex align-items-center gap-2"
-                                        label="I authorize company representatives to Call, SMS, Email, or WhatsApp me about its products and offers."
-                                    />
                                 </Form>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-            <ToastContainer 
-    position="top-center" 
-    autoClose={3000} 
-    toastContainerClassName="custom-toast-container"
-/>
-            <style>
-                {`
-          .backdrop-blur {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            }
-            
-            .price-card {
-                background: linear-gradient(135deg, #ff8c00, #ff3d00);
-                color: white;
-                text-align: center;
-                max-width: 300px;
-            }
-            `}
-            </style>
-        </div>
-            </>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+
+            {/* Enhanced Success Modal */}
+            <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                <Modal.Body className={`text-center p-4 ${animate ? "fade-in" : ""}`}>
+                    <IoCheckmarkCircleSharp size={70} className="text-success animate-checkmark" />
+                    <h4 className="fw-bold text-success mt-3">
+                        🎉 Success! Thank you, {formData.name || "Guest"}!
+                    </h4>
+                    <p className="text-muted">We'll get back to you shortly.</p>
+                    <Button
+                        className="w-100 mt-3 purple fw-bold"
+                        onClick={() => setShowModal(false)}
+                    >
+                        Back to Home
+                    </Button>
+                </Modal.Body>
+            </Modal>
+        </>
     );
 };
 

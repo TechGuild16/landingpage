@@ -4,23 +4,40 @@ import { FaTimes, FaPhoneAlt, FaCarSide, FaRupeeSign } from "react-icons/fa";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { Modal, Button } from "react-bootstrap";
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import { animate } from "framer-motion";
 const PopupForm = () => {
   const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const [phone, setPhone] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    message: "",
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowForm(true);
-    }, 3000);
+    const timer = setTimeout(() => setShowForm(true), 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required.";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format.";
+    }
+    if (!phone || phone.length < 10)
+      newErrors.phone = "Phone number must be 10 digits.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +46,7 @@ const PopupForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
     const templateParams = {
       subject: formData.subject,
@@ -45,8 +63,14 @@ const PopupForm = () => {
         templateParams,
         "TztJaR0LXFRcGec-g"
       )
-      .then(() => toast.success("🎉 Form submitted successfully!"))
-      .catch(() => toast.error("❌ Failed to submit form. Please try again."));
+      .then(() => {
+        setModalMessage("🎉 Form submitted successfully!");
+        setShowModal(true);
+      })
+      .catch(() => {
+        setModalMessage("❌ Failed to submit form. Please try again.");
+        setShowModal(true);
+      });
   };
 
   return (
@@ -92,18 +116,17 @@ const PopupForm = () => {
                     value={formData.name}
                     onChange={handleChange}
                   />
+                  {errors.name && <p className="error-text" style={{color : "red"}}>{errors.name}</p>}
+
                   <PhoneInput
-                    country={"in"}
+                    country="in"
                     value={phone}
                     onChange={(phone) => setPhone(phone)}
-                    inputStyle={{
-                      width: "100%",
-                      padding: "10px",
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                    }}
-                    className =" slecect mt-2"
+                    inputStyle={{ width: "100%" }}
+                    className="mt-2"
                   />
+                  {errors.phone && <p className="error-text" style={{color : "red"}}>{errors.phone}</p>}
+
                   <input
                     type="email"
                     name="email"
@@ -111,14 +134,18 @@ const PopupForm = () => {
                     value={formData.email}
                     onChange={handleChange}
                   />
+                  {errors.email && <p className="error-text" style={{color : "red"}}>{errors.email}</p>}
+
                   <textarea
                     name="message"
                     placeholder="Your Message"
                     value={formData.message}
                     onChange={handleChange}
                     rows="4"
-                    className="widhtof mt-2 border p-2"
+                    className="border mt-2 p-2"
+                    style={{ width: "100%", }}
                   />
+
                   <button className="submit-btn" type="submit">
                     Get Instant Call Back
                   </button>
@@ -128,7 +155,6 @@ const PopupForm = () => {
           </div>
         </motion.div>
       )}
-       <ToastContainer position="top-center" autoClose={3000} />
       <style>
         {`
           /* Overlay Background */
@@ -272,6 +298,22 @@ const PopupForm = () => {
           }
         `}
       </style>
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} style={{zIndex : "900000000000000000000"}}  centered>
+        <Modal.Body className={`text-center  p-4 ${animate ? "fade-in" : ""}`} >
+          <IoCheckmarkCircleSharp size={70} className="text-success animate-checkmark" />
+          <h4 className="fw-bold text-success mt-3">
+            🎉 Success! Thank you, {formData.name || "Guest"}!
+          </h4>
+          <p className="text-muted">We'll get back to you shortly.</p>
+          <Button
+            className="w-100 mt-3 purple fw-bold"
+            onClick={() => setShowModal(false)}
+          >
+            Back to Home
+          </Button>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

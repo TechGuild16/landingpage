@@ -1,27 +1,48 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Modal } from 'react-bootstrap';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import emailjs from '@emailjs/browser';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { IoCheckmarkCircleSharp } from 'react-icons/io5';
+import { animate } from 'framer-motion';
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: '',
-        phone : '',
+        phone : ''
     });
     const [phone, setPhone] = useState("");
+    const [errors, setErrors] = useState({});
+    const [modalInfo, setModalInfo] = useState({ show: false, message: '', success: false });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!formData.name.trim()) newErrors.name = "Name is required.";
+        if (!formData.email.trim()) {
+            newErrors.email = "Email is required.";
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = "Invalid email address.";
+        }
+        if (!/^\d{10}$/.test(phone)) {
+            newErrors.phone = "Phone number must be 10 digits.";
+        }
+        return newErrors;
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        const validationErrors = validateForm();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+        setErrors({});
 
         const templateParams = {
             name: formData.name,
@@ -31,14 +52,9 @@ const Contact = () => {
         };
 
         emailjs
-            .send(
-                "service_gr9oxba",
-                "template_2h8x1qs",
-                templateParams,
-                "TztJaR0LXFRcGec-g"
-            )
-            .then(() => toast.success("🎉 Form submitted successfully!"))
-            .catch(() => toast.error("❌ Failed to submit form. Please try again."));
+            .send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
+            .then(() => setModalInfo({ show: true, message: "🎉 Form submitted successfully!", success: true }))
+            .catch(() => setModalInfo({ show: true, message: "❌ Failed to submit form. Please try again.", success: false }));
     };
 
     return (
@@ -71,7 +87,9 @@ const Contact = () => {
                                     placeholder="Enter Name" 
                                     value={formData.name} 
                                     onChange={handleChange}
+                                    isInvalid={!!errors.name}
                                 />
+                                <Form.Control.Feedback type="invalid" style={{color : "red"}}>{errors.name}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Control 
@@ -80,7 +98,9 @@ const Contact = () => {
                                     placeholder="Enter Email" 
                                     value={formData.email} 
                                     onChange={handleChange}
+                                    isInvalid={!!errors.email}
                                 />
+                                <Form.Control.Feedback type="invalid" style={{color : "red"}}>{errors.email}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <PhoneInput
@@ -89,8 +109,9 @@ const Contact = () => {
                                     placeholder="Enter Number"
                                     value={phone}
                                     onChange={setPhone}
-                                    className = "slecect"
+                                    className="slecect"
                                 />
+                                {errors.phone && <p className="text-danger small mt-1" style={{color : "red"}} >{errors.phone}</p>}
                             </Form.Group>
                             <Form.Group className="mb-3">
                                 <Form.Control 
@@ -121,7 +142,22 @@ const Contact = () => {
                     </Card>
                 </Col>
             </Row>
-            <ToastContainer position="top-center" autoClose={3000} />
+
+            <Modal show={modalInfo.show} onHide={() => setModalInfo({ show: false, message: '', success: false })} centered>
+                 <Modal.Body className={`text-center p-4 ${animate ? "fade-in" : ""}`}>
+                                    <IoCheckmarkCircleSharp size={70} className="text-success animate-checkmark" />
+                                    <h4 className="fw-bold text-success mt-3">
+                                        🎉 Success! Thank you, {formData.name || "Guest"}!
+                                    </h4>
+                                    <p className="text-muted">We'll get back to you shortly.</p>
+                                    <Button
+                                        className="w-100 mt-3 purple fw-bold"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Back to Home
+                                    </Button>
+                                </Modal.Body>
+            </Modal>
         </Container>
     );
 };
