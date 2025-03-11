@@ -51,7 +51,7 @@ const NavigationBar = () => {
 
           <div className="d-flex align-items-center gap-3">
             <Button href="#brochure" className="brochure-btn mx-1">
-              <FaPhoneFlip className="icon-bounce" /> <a href="tel:+918884900332"  style={{color: "white", textDecoration : "none"}}>+91-8884900332</a>
+              <FaPhoneFlip className="icon-bounce" /> <a href="tel:+919773086484"  style={{color: "white", textDecoration : "none"}}>+919773086484</a>
             </Button>
           </div>
         </Navbar.Collapse>

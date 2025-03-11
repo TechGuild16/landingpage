@@ -75,7 +75,6 @@ const Hero = () => {
 
     return (
         <>
-            {/* Hero Section */}
             <div
                 className="hero-section text-white d-flex align-items-center"
                 style={{

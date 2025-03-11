@@ -92,11 +92,11 @@ const PopupForm = () => {
               <div className="left-section">
                 <h3>We Promise</h3>
                 <div className="promise-item">
-                  <FaPhoneAlt color="black" className="icon" size={40} />
+                  <FaPhoneAlt color="black" className="icon" size={30} />
                   <span>Assured Call Back</span>
                 </div>
                 <div className="promise-item">
-                  <FaCarSide color="black" className="icon" size={40} />
+                  <FaCarSide color="black" className="icon" size={35} />
                   <span>Free Site Visit</span>
                 </div>
                 <div className="promise-item">

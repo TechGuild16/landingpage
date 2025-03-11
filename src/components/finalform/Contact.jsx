@@ -29,9 +29,9 @@ const Contact = () => {
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = "Invalid email address.";
         }
-        if (!/^\d{10}$/.test(phone)) {
+        if (!phone || phone.length < 10)
             newErrors.phone = "Phone number must be 10 digits.";
-        }
+
         return newErrors;
     };
 
