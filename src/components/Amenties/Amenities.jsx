@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import img1 from "../../assets/img1.webp";
-import img2 from "../../assets/img2.webp";
+import img2 from "../../assets/img3.webp";
 import img3 from "../../assets/img3.webp";
 import img4 from "../../assets/img4.webp";
 import amenities from "../../assets/amenities.webp";
