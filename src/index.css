@@ -11,7 +11,8 @@
   position: relative;
 }
 .absolutepos{
-  position: absolute;
+  position: fixed;
+  right: 0;
   
 }.custom-navbar {
  
@@ -32,8 +33,9 @@
 }
 
 .absolutepos{
-  top: 0;
+  top: 60%;
   right: 0;
+  transform: translate(0%,-50%);
   display: none;
 }
 html, body {
@@ -191,12 +193,32 @@ html, body {
  .absolutepos{
   display: block;
 }
+.whatsapp-button, .call-button {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+}
+.whatsapp-button {
+  background-color: #25D366;
+  width: 11vh !important;
+  height: 11vh !important;
+}
+.call-button {
+  background-color: #E09145;
+  width: 11vh !important;
+  height: 11vh !important;
+}
+.icon {
+  font-size: 48px !important;
+  color: white;
+}
 .mytext{
   font-size: 8vw !important;
 }
- .hiddenindek{
-  display: block;
- }
 }
 .widhtof{
   width: 100% !important;
@@ -219,7 +241,9 @@ html, body {
       transform: scale(1);
   }
 }
-
+.black{
+  color: black !important;
+}
 .animate-checkmark {
   animation: bounceIn 0.8s ease-out;
 }

@@ -5,6 +5,7 @@ import { BsPlayCircle } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../assets/logo.jpg";
 import dellogo from '../../assets/developer-logo.png'
+import { FaPhoneFlip } from "react-icons/fa6";
 
 const NavigationBar = () => {
   const [navbarBg, setNavbarBg] = useState("transparent");
@@ -50,7 +51,7 @@ const NavigationBar = () => {
 
           <div className="d-flex align-items-center gap-3">
             <Button href="#brochure" className="brochure-btn mx-1">
-              <FaFileDownload className="icon-bounce" /> Brochure
+              <FaPhoneFlip className="icon-bounce" /> <a href="tel:+918884900332"  style={{color: "white", textDecoration : "none"}}>+91-8884900332</a>
             </Button>
           </div>
         </Navbar.Collapse>

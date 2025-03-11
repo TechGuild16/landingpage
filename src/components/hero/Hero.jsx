@@ -6,10 +6,10 @@ import { FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import background from "../../assets/background.jpg";
 import emailjs from "@emailjs/browser";
-import { FaWhatsapp, FaPhone } from "react-icons/fa";   
+import { FaWhatsapp, FaPhone } from "react-icons/fa";
 const Hero = () => {
     const [phone, setPhone] = useState("");
-    const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+    const [formData, setFormData] = useState({ name: "", email: "", message: "", phone: "" });
     const [errors, setErrors] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [animate, setAnimate] = useState(false);
@@ -19,6 +19,8 @@ const Hero = () => {
         setFormData({ ...formData, [name]: value });
         setErrors({ ...errors, [name]: "" }); // Clear error on user input
     };
+
+    const phoneWithoutCountryCode = phone.replace(/^\+91/, "");
 
     const validateForm = () => {
         const newErrors = {};
@@ -35,11 +37,8 @@ const Hero = () => {
             newErrors.email = "Enter a valid email address.";
         }
 
-        if (!phone.trim()) {
-            newErrors.phone = "Phone number is required.";
-        } else if (!/^[6-9]\d{9}$/.test(phone)) {
-            newErrors.phone = "Enter a valid 10-digit Indian phone number.";
-        }
+        if (!phone || phone.length < 10)
+            newErrors.phone = "Phone number must be 10 digits.";
 
         if (!formData.message.trim()) {
             newErrors.message = "Message is required.";
@@ -98,22 +97,22 @@ const Hero = () => {
                             </p>
                             <h4 className="fw-semibold">2, 3 & 4 BHK APARTMENTS</h4>
                             <ul className="list-unstyled mybackground mt-4 fs-5">
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Status: New Launch
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Green Spaces: 80%
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Largest Land Parcel of 5.76 Acre in Central Pune
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> Tallest Tower of Central Pune
-                            </li>
-                            <li className="mb-2 mylilist">
-                                <FaCheckCircle className="text-success me-2" /> 1.5 Acres of Grand Clubhouse
-                            </li>
-                        </ul>
+                                <li className="mb-2 mylilist">
+                                    <FaCheckCircle className="text-success me-2" /> Status: New Launch
+                                </li>
+                                <li className="mb-2 mylilist">
+                                    <FaCheckCircle className="text-success me-2" /> Green Spaces: 80%
+                                </li>
+                                <li className="mb-2 mylilist">
+                                    <FaCheckCircle className="text-success me-2" /> Largest Land Parcel of 5.76 Acre in Central Pune
+                                </li>
+                                <li className="mb-2 mylilist">
+                                    <FaCheckCircle className="text-success me-2" /> Tallest Tower of Central Pune
+                                </li>
+                                <li className="mb-2 mylilist">
+                                    <FaCheckCircle className="text-success me-2" /> 1.5 Acres of Grand Clubhouse
+                                </li>
+                            </ul>
                             <Button className="mt-3 purple px-5 py-2 fw-bold shadow-lg">Know More →</Button>
                             <div className="mt-4 p-4 rounded shadow-lg price-card">
                                 <h5 className="fw-bold text-uppercase text-white">Starting Price</h5>
@@ -158,14 +157,12 @@ const Hero = () => {
                                     <Form.Group className="mb-3">
                                         <PhoneInput
                                             country="in"
-                                            enableSearch={true}
-                                            containerClass="w-100"
-                                            inputClass="form-control w-100 p-3 rounded-3"
                                             value={phone}
-                                            onChange={setPhone}
-                                            required
+                                            onChange={(phone) => setPhone(phone)}
+                                            inputStyle={{ width: "100%" }}
+                                            className="mt-2"
                                         />
-                                        {errors.phone && <p className="text-danger mt-1">{errors.phone}</p>}
+                                        {errors.phone && <p className="error-text" style={{ color: "red" }}>{errors.phone}</p>}
                                     </Form.Group>
 
                                     {/* Message Field */}
@@ -191,23 +188,22 @@ const Hero = () => {
                         </Col>
                     </Row>
                 </Container>
-              
-<div className="absolutepos">
-    <a 
-        href="https://wa.me/+919773086484" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="whatsapp-button"
-    >
-        <FaWhatsapp className="icon" /> WhatsApp Chat
-    </a>
-    <a 
-        href="tel:+919773086484" 
-        className="call-button"
-    >
-        <FaPhone className="icon" /> Call Now
-    </a>
-</div>
+                <div className="absolutepos">
+                    <a
+                        href="https://wa.me/+919773086484"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="whatsapp-button"
+                    >
+                        <FaWhatsapp className="icon whatsapp-icon" />
+                    </a>
+                    <a
+                        href="tel:+919773086484"
+                        className="call-button"
+                    >
+                        <FaPhone className="icon call-icon" />
+                    </a>
+                </div>
 
             </div>
 
@@ -228,9 +224,9 @@ const Hero = () => {
                 </Modal.Body>
             </Modal>
 
-            
+
         </>
-        
+
     );
 };
 
