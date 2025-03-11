@@ -6,7 +6,7 @@ import { FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import background from "../../assets/background.jpg";
 import emailjs from "@emailjs/browser";
-
+import { FaWhatsapp, FaPhone } from "react-icons/fa";   
 const Hero = () => {
     const [phone, setPhone] = useState("");
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -191,6 +191,24 @@ const Hero = () => {
                         </Col>
                     </Row>
                 </Container>
+              
+<div className="absolutepos">
+    <a 
+        href="https://wa.me/+919773086484" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="whatsapp-button"
+    >
+        <FaWhatsapp className="icon" /> WhatsApp Chat
+    </a>
+    <a 
+        href="tel:+919773086484" 
+        className="call-button"
+    >
+        <FaPhone className="icon" /> Call Now
+    </a>
+</div>
+
             </div>
 
             {/* Enhanced Success Modal */}
@@ -209,7 +227,10 @@ const Hero = () => {
                     </Button>
                 </Modal.Body>
             </Modal>
+
+            
         </>
+        
     );
 };
 
