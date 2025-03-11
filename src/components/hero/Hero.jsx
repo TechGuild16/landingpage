@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import background from "../../assets/background.jpg";
 import emailjs from "@emailjs/browser";
@@ -97,7 +97,23 @@ const Hero = () => {
                                 <FaMapMarkerAlt className="me-2" /> At Mangalwar Peth, Kasba Peth, Pune
                             </p>
                             <h4 className="fw-semibold">2, 3 & 4 BHK APARTMENTS</h4>
-
+                            <ul className="list-unstyled mybackground mt-4 fs-5">
+                            <li className="mb-2 mylilist">
+                                <FaCheckCircle className="text-success me-2" /> Status: New Launch
+                            </li>
+                            <li className="mb-2 mylilist">
+                                <FaCheckCircle className="text-success me-2" /> Green Spaces: 80%
+                            </li>
+                            <li className="mb-2 mylilist">
+                                <FaCheckCircle className="text-success me-2" /> Largest Land Parcel of 5.76 Acre in Central Pune
+                            </li>
+                            <li className="mb-2 mylilist">
+                                <FaCheckCircle className="text-success me-2" /> Tallest Tower of Central Pune
+                            </li>
+                            <li className="mb-2 mylilist">
+                                <FaCheckCircle className="text-success me-2" /> 1.5 Acres of Grand Clubhouse
+                            </li>
+                        </ul>
                             <Button className="mt-3 purple px-5 py-2 fw-bold shadow-lg">Know More →</Button>
                             <div className="mt-4 p-4 rounded shadow-lg price-card">
                                 <h5 className="fw-bold text-uppercase text-white">Starting Price</h5>
