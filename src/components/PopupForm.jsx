@@ -92,15 +92,15 @@ const PopupForm = () => {
               <div className="left-section">
                 <h3>We Promise</h3>
                 <div className="promise-item">
-                  <FaPhoneAlt className="icon" size={40} />
+                  <FaPhoneAlt color="black" className="icon" size={40} />
                   <span>Assured Call Back</span>
                 </div>
                 <div className="promise-item">
-                  <FaCarSide className="icon" size={40} />
+                  <FaCarSide color="black" className="icon" size={40} />
                   <span>Free Site Visit</span>
                 </div>
                 <div className="promise-item">
-                  <FaRupeeSign className="icon" size={40} />
+                  <FaRupeeSign color="black" className="icon" size={40} />
                   <span>Best Price</span>
                 </div>
               </div>
