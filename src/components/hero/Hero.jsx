@@ -196,13 +196,13 @@ const Hero = () => {
                         rel="noopener noreferrer"
                         className="whatsapp-button"
                     >
-                        <FaWhatsapp className="icon whatsapp-icon" />
+                        <FaWhatsapp className="" size={100} />
                     </a>
                     <a
                         href="tel:+919773086484"
                         className="call-button"
                     >
-                        <FaPhone className="icon call-icon" />
+                        <FaPhone className=""  size={100} />
                     </a>
                 </div>
 
