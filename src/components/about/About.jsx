@@ -6,7 +6,7 @@ import aboutimg2 from "../../assets/about-img2.jpg";
 
 const About = () => {
   return (
-    <Container className="my-5 py-5 position-relative">
+    <Container  className="my-5 py-5 position-relative">
       <Row className="align-items-center justify-content-center gap-5">
         <Col md={5} className="position-relative">
           <motion.div

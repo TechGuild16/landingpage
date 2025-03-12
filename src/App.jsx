@@ -1,6 +1,6 @@
 import About from "./components/about/About";
 import Amenities from "./components/Amenties/Amenities";
-import Features from "./components/features/features";
+import Features from "./components/features/Features";
 import Contact from "./components/finalform/Contact";
 import FloorPlan from "./components/floorplan/FloorPlan";
 import Footer from "./components/footer/Footer";
@@ -10,6 +10,8 @@ import MapSec from "./components/map/MapSec";
 import NavigationBar from "./components/Navbar/NavigationBar";
 import PopupForm from "./components/PopupForm";
 import Price from "./components/price/Price";
+
+
 
 function App() {
 

@@ -5,6 +5,7 @@ import 'react-phone-input-2/lib/style.css';
 import emailjs from '@emailjs/browser';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import { animate } from 'framer-motion';
+
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -58,7 +59,7 @@ const Contact = () => {
     };
 
     return (
-        <Container className="py-5">
+        <Container  className="py-5">
             <Row className="align-items-center">
                 <Col md={6}>
                     <h3 className="text-purple fw-bold">

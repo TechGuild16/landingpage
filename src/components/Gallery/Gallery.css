@@ -1,0 +1,30 @@
+.gallery-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+  }
+  
+  .gallery-slider {
+    display: flex;
+    gap: 20px;
+    animation: scroll 15s linear infinite;
+    width: fit-content;
+  }
+  
+  .gallery-item img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  

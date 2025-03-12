@@ -22,7 +22,7 @@ const Amenities = () => {
   };
 
   return (
-    <Container
+    <Container id="amenities"
       fluid
       className="py-5 position-relative"
       style={{

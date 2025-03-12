@@ -8,6 +8,7 @@ import { Modal, Button } from "react-bootstrap";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { animate } from "framer-motion";
 const PopupForm = () => {
+
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -19,9 +20,11 @@ const PopupForm = () => {
   });
   const [errors, setErrors] = useState({});
 
+
   useEffect(() => {
-    const timer = setTimeout(() => setShowForm(true), 3000);
+    const timer = setTimeout(() => setShowForm(true), 1000);
     return () => clearTimeout(timer);
+    
   }, []);
 
   const validateForm = () => {

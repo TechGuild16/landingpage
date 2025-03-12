@@ -1,24 +1,17 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Card, Button, Modal, Form } from "react-bootstrap";
-import { FaRegEye } from "react-icons/fa";
-import img1 from "../../assets/floorplan-sm (1).jpg";
-import img2 from "../../assets/floorplan-sm.jpg";
-import img3 from "../../assets/floorplan1-sm.jpg";
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-import emailjs from '@emailjs/browser';
+import { Container, Row, Col, Modal, Button, Form } from "react-bootstrap";
+import { FaPlay } from "react-icons/fa";
+import { motion } from "framer-motion";
+import background from "../../assets/background.jpg";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import emailjs from "@emailjs/browser";
 
-const FloorPlan = () => {
+const Virtual = () => {
   const [show, setShow] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", phone: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
-
-  const plans = [
-    { title: "2 BHK", img: img2 },
-    { title: "3 BHK", img: img3 },
-    { title: "4 BHK", img: img2 },
-  ];
 
   const handleShowForm = () => setShow(true);
   const handleCloseForm = () => setShow(false);
@@ -37,7 +30,6 @@ const FloorPlan = () => {
       newErrors.email = "Invalid email address.";
     }
     if (!phone || phone.length < 10) newErrors.phone = "Phone number must be 10 digits.";
-
     return newErrors;
   };
 
@@ -50,8 +42,7 @@ const FloorPlan = () => {
     }
     setErrors({});
 
-    const templateParams = { name: formData.name, email: formData.email, message: formData.message, phone: phone };
-
+    const templateParams = { name: formData.name, email: formData.email, message: formData.message, phone };
     emailjs
       .send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
       .then(() => alert("Form submitted successfully!"))
@@ -59,23 +50,36 @@ const FloorPlan = () => {
   };
 
   return (
-    <Container id="floor-plan" className="text-center py-5">
-      <h3 className="fs-1 mb-3">Floor Plan</h3>
-      <h2 className="mb-4">Choose Your Perfect Plan</h2>
+    <Container id="virtual-tour" className="virtual-tour">
+      <Row className="justify-content-center text-center">
+        <Col md={12}>
+          <h2 className="title fs-1">Virtual Site Tour</h2>
+        </Col>
+      </Row>
       <Row className="justify-content-center">
-        {plans.map((plan, index) => (
-          <Col key={index} md={4} className="mb-4 justify-content-center">
-            <Card className="border rounded-3 shadow-sm">
-              <Card.Img variant="top" src={plan.img} className="img-fluid blur" style={{ filter: "blur(5px)" }} />
-              <Button className="position-absolute purple top-50 start-50 translate-middle" onClick={handleShowForm}>
-                <FaRegEye className="me-2" /> View Plan
-              </Button>
-              <Card.Footer className="text-center fs-2 purple text-white fw-bold">{plan.title}</Card.Footer>
-            </Card>
-          </Col>
-        ))}
+        <Col md={10} lg={8} className="text-center">
+          <div className="virtual-tour-box">
+            <img src={background} alt="Virtual Tour" className="tour-image" />
+            <div className="overlay">
+              <motion.div
+                className="play-button"
+                whileHover={{ scale: 1.2, rotate: 10 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                onClick={handleShowForm}
+              >
+                <FaPlay color="black" size={30} />
+              </motion.div>
+              <div className="text-content">
+                <h3 className="tour-text">VIRTUAL TOUR</h3>
+                <p className="sub-text">Birla Punya</p>
+              </div>
+            </div>
+          </div>
+        </Col>
       </Row>
 
+      {/* Form Modal */}
       <Modal show={show} onHide={handleCloseForm} centered>
         <Modal.Body className="p-4 ">
           <h3 className="text-center text-black mb-4">BIRLA PUNYA PHASE 1</h3>
@@ -89,13 +93,13 @@ const FloorPlan = () => {
               <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
-              <PhoneInput country={'in'} inputStyle={{ width: '100%' }} placeholder="Enter Number" value={phone} onChange={setPhone} />
+              <PhoneInput country={"in"} inputStyle={{ width: "100%" }} placeholder="Enter Number" value={phone} onChange={setPhone} />
               {errors.phone && <p className="text-danger small mt-1">{errors.phone}</p>}
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Control as="textarea" rows={3} name="message" placeholder="Enter Message" value={formData.message} onChange={handleChange} />
             </Form.Group>
-            <Button className="w-100 purple" type="submit" style={{ color: "#fff" }}>
+            <Button className="w-100 purple" type="submit" style={{ color: "#ffff" }}>
               Submit Now
             </Button>
           </Form>
@@ -105,4 +109,4 @@ const FloorPlan = () => {
   );
 };
 
-export default FloorPlan;
+export default Virtual;

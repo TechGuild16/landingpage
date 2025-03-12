@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import Virtual from '../Virtual/Virtual';
 
 const MapSec = () => {
     const locations = [
@@ -14,7 +15,7 @@ const MapSec = () => {
     ];
 
     return (
-        <Container fluid className="py-5 bg-light">
+        <Container id='location' fluid className="py-5 bg-light">
             <Row className="align-items-center">
                 {/* Google Maps Iframe */}
                 <Col md={6} className="p-3">
@@ -46,6 +47,7 @@ const MapSec = () => {
                     </ul>
                 </Col>
             </Row>
+            <Virtual/>
         </Container>
     );
 };

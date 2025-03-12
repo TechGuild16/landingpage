@@ -13,13 +13,16 @@ const Hero = () => {
     const [errors, setErrors] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [animate, setAnimate] = useState(false);
-
+    const [formopne, setopenm] = useState(false)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
         setErrors({ ...errors, [name]: "" }); // Clear error on user input
     };
-
+    const formopoen = () => {
+        setopenm(true)
+    }
+    const handleCloseForm = () => setopenm(false);
     const phoneWithoutCountryCode = phone.replace(/^\+91/, "");
 
     const validateForm = () => {
@@ -42,7 +45,7 @@ const Hero = () => {
 
         if (!formData.message.trim()) {
             newErrors.message = "Message is required.";
-        } 
+        }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -75,7 +78,7 @@ const Hero = () => {
 
     return (
         <>
-            <div
+            <div 
                 className="hero-section text-white d-flex align-items-center"
                 style={{
                     background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${background})`,
@@ -85,12 +88,13 @@ const Hero = () => {
                     minHeight: "100vh",
                 }}
             >
-                <Container>
+                <Container id="home">
                     <Row className="align-items-center">
                         <Col lg={7} className="text-start">
                             <h1 className="fw-bold display-4 mytext">BIRLA PUNYA PHASE 1</h1>
-                            <p className="mb-3 lead">
-                                <FaMapMarkerAlt className="me-2" /> At Mangalwar Peth, Kasba Peth, Pune
+                            <p className="mb-3 lead" style={{fontFamily:"bold"}}>
+                                <FaMapMarkerAlt className="me-2"  /> Sangamwadi, Central Pune, next to the Sheraton Hotel
+
                             </p>
                             <h4 className="fw-semibold">2, 3 & 4 BHK APARTMENTS</h4>
                             <ul className="list-unstyled mybackground mt-4 fs-5">
@@ -110,7 +114,7 @@ const Hero = () => {
                                     <FaCheckCircle className="text-success me-2" /> 1.5 Acres of Grand Clubhouse
                                 </li>
                             </ul>
-                            <Button className="mt-3 purple px-5 py-2 fw-bold shadow-lg">Know More →</Button>
+                            <Button className="mt-3 purple px-5 py-2 fw-bold shadow-lg" onClick={formopoen}>Know More →</Button>
                             <div className="mt-4 p-4 rounded shadow-lg price-card">
                                 <h5 className="fw-bold text-uppercase text-white">Starting Price</h5>
                                 <h3 className="text-warning fw-bold display-5">₹ 1.75 Cr*</h3>
@@ -204,7 +208,6 @@ const Hero = () => {
 
             </div>
 
-            {/* Enhanced Success Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Body className={`text-center p-4 ${animate ? "fade-in" : ""}`}>
                     <IoCheckmarkCircleSharp size={70} className="text-success animate-checkmark" />
@@ -218,6 +221,68 @@ const Hero = () => {
                     >
                         Back to Home
                     </Button>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={formopne} onHide={handleCloseForm} centered>
+                <Modal.Body className="p-4 ">
+                    <h4 className="text-center text-black fw-bold mb-3">Book A Site Visit!</h4>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Control
+                                type="text"
+                                name="name"
+                                placeholder="Enter Name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="p-3 rounded-3"
+                                required
+                            />
+                            {errors.name && <p className="text-danger mt-1">{errors.name}</p>}
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Control
+                                type="email"
+                                name="email"
+                                placeholder="Enter Email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="p-3 rounded-3"
+                                required
+                            />
+                            {errors.email && <p className="text-danger mt-1">{errors.email}</p>}
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <PhoneInput
+                                country="in"
+                                value={phone}
+                                onChange={(phone) => setPhone(phone)}
+                                inputStyle={{ width: "100%" }}
+                                className="mt-2"
+                            />
+                            {errors.phone && <p className="error-text" style={{ color: "red" }}>{errors.phone}</p>}
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                name="message"
+                                placeholder="Enter Message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                className="p-3 rounded-3"
+                                required
+                            />
+                            {errors.message && <p className="text-danger mt-1">{errors.message}</p>}
+                        </Form.Group>
+
+                        <Button type="submit" style={{  color: "#000" }} className="w-100 purple text-white  fw-bold py-3 shadow-lg">
+                            Submit Now
+                        </Button>
+                    </Form>
                 </Modal.Body>
             </Modal>
 
