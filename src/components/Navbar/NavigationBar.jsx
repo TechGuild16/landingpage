@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../assets/logo.jpg";
 import dellogo from '../../assets/developer-logo.png'
 import { FaPhoneFlip } from "react-icons/fa6";
+import pdf from '../../assets/Birla.pdf'
 
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -51,7 +52,18 @@ const NavigationBar = () => {
     const templateParams = { name: formData.name, email: formData.email, message: formData.message, phone };
     emailjs
       .send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
-      .then(() => alert("Form submitted successfully!"))
+      .then(() => {
+        alert("Form submitted successfully!");
+  
+        const link = document.createElement("a");
+        link.href = pdf; 
+        link.setAttribute("download", "Brochure.pdf")
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+      })
+      
       .catch(() => alert("Failed to submit form. Please try again."));
   };
 

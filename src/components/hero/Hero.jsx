@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -9,15 +9,28 @@ import emailjs from "@emailjs/browser";
 import { FaWhatsapp, FaPhone } from "react-icons/fa";
 const Hero = () => {
     const [phone, setPhone] = useState("");
+    const [scrollBottom, setScrollBottom] = useState(20);
     const [formData, setFormData] = useState({ name: "", email: "", message: "", phone: "" });
     const [errors, setErrors] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [animate, setAnimate] = useState(false);
     const [formopne, setopenm] = useState(false)
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrolled = window.scrollY;
+            const newBottom = Math.min(120, 20 + scrolled * 0.2);
+            setScrollBottom(newBottom);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        setErrors({ ...errors, [name]: "" }); // Clear error on user input
+        setErrors({ ...errors, [name]: "" });
     };
     const formopoen = () => {
         setopenm(true)
@@ -78,7 +91,7 @@ const Hero = () => {
 
     return (
         <>
-            <div 
+            <div
                 className="hero-section text-white d-flex align-items-center"
                 style={{
                     background: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${background})`,
@@ -92,8 +105,8 @@ const Hero = () => {
                     <Row className="align-items-center">
                         <Col lg={7} className="text-start">
                             <h1 className="fw-bold display-4 mytext">BIRLA PUNYA PHASE 1</h1>
-                            <p className="mb-3 lead" style={{fontFamily:"bold"}}>
-                                <FaMapMarkerAlt className="me-2"  /> Sangamwadi, Central Pune, next to the Sheraton Hotel
+                            <p className="mb-3 lead d-flex align-items-center" >
+                                <FaMapMarkerAlt className="me-2 " /> <p className="pt-2" style={{ fontWeight: "500" }}>Sangamwadi, Central Pune, next to the Sheraton Hotel</p>
 
                             </p>
                             <h4 className="fw-semibold">2, 3 & 4 BHK APARTMENTS</h4>
@@ -189,7 +202,12 @@ const Hero = () => {
                         </Col>
                     </Row>
                 </Container>
-                <div className="absolutepos">
+                <div className="absolutepos" style={{
+                    position: "fixed",
+                    right: "20px",
+                    bottom: `${scrollBottom}px`,
+                    transition: "bottom 0.3s ease-in-out",
+                }}>
                     <a
                         href="https://wa.me/+919773086484"
                         target="_blank"
@@ -202,7 +220,7 @@ const Hero = () => {
                         href="tel:+919773086484"
                         className="call-button"
                     >
-                        <FaPhone className=""  size={100} />
+                        <FaPhone className="" size={100} />
                     </a>
                 </div>
 
@@ -279,7 +297,7 @@ const Hero = () => {
                             {errors.message && <p className="text-danger mt-1">{errors.message}</p>}
                         </Form.Group>
 
-                        <Button type="submit" style={{  color: "#000" }} className="w-100 purple text-white  fw-bold py-3 shadow-lg">
+                        <Button type="submit" style={{ color: "#000" }} className="w-100 purple text-white  fw-bold py-3 shadow-lg">
                             Submit Now
                         </Button>
                     </Form>

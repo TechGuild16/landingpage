@@ -59,7 +59,7 @@ const About = () => {
             <h2 className="fw-bold display-3 text-dark mb-4">
               Building Dreams, <br /> Creating Homes: <br /> Our Story
             </h2>
-            <p className="text-muted fs-5 lh-lg">
+            <p className="text-muted text-justify  fs-5 lh-lg" style={{textAlign : "justify"}}>
               Welcome to <strong>Birla Sangamwadi</strong> – an exclusive residential oasis in Pune. 
               With breathtaking architecture, cutting-edge amenities, and a peaceful setting, 
               it redefines luxury living.
