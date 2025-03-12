@@ -7,9 +7,11 @@ import img3 from "../../assets/floorplan1-sm.jpg";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import emailjs from '@emailjs/browser';
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
 
 const FloorPlan = () => {
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "", phone: "" });
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
@@ -49,12 +51,13 @@ const FloorPlan = () => {
       return;
     }
     setErrors({});
-
+    
     const templateParams = { name: formData.name, email: formData.email, message: formData.message, phone: phone };
-
-    emailjs
-      .send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
-      .then(() => alert("Form submitted successfully!"))
+    emailjs.send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
+      .then(() => {
+        setShow(false);
+        setShowModal(true);
+      })
       .catch(() => alert("Failed to submit form. Please try again."));
   };
 
@@ -68,7 +71,7 @@ const FloorPlan = () => {
             <Card className="border rounded-3 shadow-sm">
               <Card.Img variant="top" src={plan.img} className="img-fluid blur" style={{ filter: "blur(5px)" }} />
               <Button className="position-absolute purple top-50 start-50 translate-middle" onClick={handleShowForm}>
-                <FaRegEye className="me-2" /> View Plan
+                <FaRegEye className="me-2" /> View Floor Plan
               </Button>
               <Card.Footer className="text-center fs-2 purple text-white fw-bold">{plan.title}</Card.Footer>
             </Card>
@@ -77,7 +80,7 @@ const FloorPlan = () => {
       </Row>
 
       <Modal show={show} onHide={handleCloseForm} centered>
-        <Modal.Body className="p-4 ">
+        <Modal.Body className="p-4">
           <h3 className="text-center text-black mb-4">BIRLA PUNYA PHASE 1</h3>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
@@ -99,6 +102,17 @@ const FloorPlan = () => {
               Submit Now
             </Button>
           </Form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Body className="text-center p-4">
+          <IoCheckmarkCircleSharp size={70} className="text-success" />
+          <h4 className="fw-bold text-success mt-3">🎉 Success! Thank you, {formData.name || "Guest"}!</h4>
+          <p className="text-muted">We'll get back to you shortly.</p>
+          <Button className="w-100 mt-3 purple fw-bold" onClick={() => setShowModal(false)}>
+            Back to Home
+          </Button>
         </Modal.Body>
       </Modal>
     </Container>

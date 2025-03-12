@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Modal, Form } from 'react-bootstrap';
 import { FaArrowRight } from 'react-icons/fa';
+import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import emailjs from '@emailjs/browser';
 
 const Price = () => {
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '', phone: '' });
   const [phone, setPhone] = useState('');
   const [errors, setErrors] = useState({});
@@ -47,7 +49,10 @@ const Price = () => {
     setErrors({});
     const templateParams = { name: formData.name, email: formData.email, message: formData.message, phone: phone };
     emailjs.send('service_gr9oxba', 'template_2h8x1qs', templateParams, 'TztJaR0LXFRcGec-g')
-      .then(() => alert('Form submitted successfully!'))
+      .then(() => {
+        setShow(false);
+        setShowModal(true);
+      })
       .catch(() => alert('Failed to submit form. Please try again.'));
   };
 
@@ -76,7 +81,7 @@ const Price = () => {
 
       {/* Modal for Form */}
       <Modal show={show} onHide={handleClose} centered>
-        <Modal.Body className='p-4 '>
+        <Modal.Body className='p-4'>
           <h3 className='text-center text-black mb-4'>BIRLA PUNYA PHASE 1</h3>
           <Form onSubmit={handleSubmit}>
             <Form.Group className='mb-3'>
@@ -98,6 +103,18 @@ const Price = () => {
               Submit Now
             </Button>
           </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Success Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Body className='text-center p-4'>
+          <IoCheckmarkCircleSharp size={70} className='text-success animate-checkmark' />
+          <h4 className='fw-bold text-success mt-3'>🎉 Success! Thank you, {formData.name || 'Guest'}!</h4>
+          <p className='text-muted'>We'll get back to you shortly.</p>
+          <Button className='w-100 mt-3 purple fw-bold' onClick={() => setShowModal(false)}>
+            Back to Home
+          </Button>
         </Modal.Body>
       </Modal>
     </Container>

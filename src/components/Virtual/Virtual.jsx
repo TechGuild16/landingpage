@@ -9,6 +9,7 @@ import emailjs from "@emailjs/browser";
 
 const Virtual = () => {
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
@@ -41,11 +42,12 @@ const Virtual = () => {
       return;
     }
     setErrors({});
+    setShow(false);
+    setShowModal(true);
 
     const templateParams = { name: formData.name, email: formData.email, message: formData.message, phone };
     emailjs
       .send("service_gr9oxba", "template_2h8x1qs", templateParams, "TztJaR0LXFRcGec-g")
-      .then(() => alert("Form submitted successfully!"))
       .catch(() => alert("Failed to submit form. Please try again."));
   };
 
@@ -103,6 +105,17 @@ const Virtual = () => {
               Submit Now
             </Button>
           </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Success Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Body className="text-center p-4">
+          <h4 className="fw-bold text-success">🎉 Success! Thank you, {formData.name || "Guest"}!</h4>
+          <p className="text-muted">We'll get back to you shortly.</p>
+          <Button className="w-100 purple fw-bold" onClick={() => setShowModal(false)}>
+            Back to Home
+          </Button>
         </Modal.Body>
       </Modal>
     </Container>
